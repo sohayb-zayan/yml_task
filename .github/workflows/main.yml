@@ -1,5 +1,4 @@
 
-
 on:
   push:
     branches:
@@ -10,10 +9,20 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest 
-
     steps:
-      - name: "testing github actions"
-        run: pwd
-      - name: "testing printing"
-        run: echo sohayb
+      - uses: actions/checkout@v3
+
+      - name: " login to dockerhub"
+        run: docker login --username ${{ secrets.DOCKERUSERNAME }} --password ${{ secrets.DOCKERTOKEN }}
+
+      - name: " building docker "
+        run: docker build -t ${{ secrets.DOCKERUSERNAME }}/ymltask .
+
+      - name: " pushing to docker hub "
+        run: docker push ${{ secrets.DOCKERUSERNAME }}/ymltask
+
+
+
+
+
 
